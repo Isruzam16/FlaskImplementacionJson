@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Persona</title>
+</head>
+<body>
+
+    <h2>Registro de Persona</h2>
+
+    <form action="/guardar" method="POST">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <label for="edad">Edad:</label><br>
+        <input type="number" id="edad" name="edad" required><br><br>
+
+        <label for="ciudad">Ciudad:</label><br>
+        <input type="text" id="ciudad" name="ciudad" required><br><br>
+
+        <label for="correo">Correo:</label><br>
+        <input type="email" id="correo" name="correo" required><br><br>
+
+        <label for="telefono">Teléfono:</label><br>
+        <input type="tel" id="telefono" name="telefono" required><br><br>
+
+        <label for="carrera">Carrera:</label><br>
+        <input type="text" id="carrera" name="carrera" required><br><br>
+
+        <label for="universidad">Universidad:</label><br>
+        <input type="text" id="universidad" name="universidad" required><br><br>
+
+        <label for="pais">País:</label><br>
+        <input type="text" id="pais" name="pais" required><br><br>
+
+        <label for="hobbies">Hobbies:</label><br>
+        <input type="text" id="hobbies" name="hobbies" required><br><br>
+
+        <label for="descripcion">Descripción:</label><br>
+        <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea><br><br>
+
+        <button type="submit">Guardar</button>
+    </form>
+
+</body>
+</html>
