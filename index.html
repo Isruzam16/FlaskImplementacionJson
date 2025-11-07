@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Sitio WEB</title>
+
+HD
+
+
+
+
+</head>
+
+<body>
+
+<h2>Registro de persona</h2>
+
+<form method="POST">
+
+<label>Nombre:
+
+</label>
+
+<input type= "text" name="nombre">
+
+<br>
+
+<br>
+
+
+<label>Edad: </label>
+
+<input type= "number name="edad">
+
+<br>
+
+<br>
+
+<button type="submit">Guardar</button>
+
+
+</form>
+
+
+complete el formulario</p>
+
+<hr>
+
+{% if per %}
+
+<p>Pr favor,
+
+<p>Bienvenido, {{per.nombre}}, tienes {{ per.edad}} años.</p> {% else %}
+
+{% endif %}
+
+
+</body>
+
+</html>
