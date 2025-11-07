@@ -1,63 +1,61 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="es">
 
 <head>
-
-<meta charset="UTF-8">
-
-<title>Sitio WEB</title>
-
-HD
-
-
-
-
+    <meta charset="UTF-8">
+    <title>Registro de Persona</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 </head>
 
 <body>
 
-<h2>Registro de persona</h2>
+    <main class="container">
+        <h2>Registro de Persona</h2>
 
-<form method="POST">
+        <form action="/guardar" method="POST">
+            <div class="grid">
+                <article>
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
 
-<label>Nombre:
+                    <label for="edad">Edad:</label>
+                    <input type="number" id="edad" name="edad" required>
 
-</label>
+                    <label for="ciudad">Ciudad:</label>
+                    <input type="text" id="ciudad" name="ciudad" required>
 
-<input type= "text" name="nombre">
+                    <label for="universidad">Universidad:</label>
+                    <input type="text" id="universidad" name="universidad" required>
+                </article>
 
-<br>
+                <article>
+                    <label for="correo">Correo:</label>
+                    <input type="email" id="correo" name="correo" required>
 
-<br>
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" required>
 
+                    <label for="carrera">Carrera:</label>
+                    <input type="text" id="carrera" name="carrera" required>
 
-<label>Edad: </label>
+                    <label for="pais">País:</label><br>
+                    <input type="text" id="pais" name="pais" required>
+                </article>
+            </div>
 
-<input type= "number name="edad">
+            <div class="grid">
+                <article>
+                    <label for="hobbies">Hobbies:</label><br>
+                    <input type="text" id="hobbies" name="hobbies" required>
 
-<br>
+                    <label for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea>
+                </article>
+            </div>
 
-<br>
-
-<button type="submit">Guardar</button>
-
-
-</form>
-
-
-complete el formulario</p>
-
-<hr>
-
-{% if per %}
-
-<p>Pr favor,
-
-<p>Bienvenido, {{per.nombre}}, tienes {{ per.edad}} años.</p> {% else %}
-
-{% endif %}
-
+            <button type="submit">Guardar</button>
+        </form>
+    </main>
 
 </body>
 
