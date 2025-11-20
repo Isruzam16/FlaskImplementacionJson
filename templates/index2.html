@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Reservas de Hotel - Flask + JSON</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">Gestión de Reservas de Hotel</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- Mensajes Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Formulario (crear / editar) -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header {{ 'bg-warning' if reserva_editar else 'bg-primary' }} text-white">
+            <h5 class="mb-0">
+                {{ 'Editar reserva' if reserva_editar else 'Registrar nueva reserva' }}
+            </h5>
+        </div>
+        <div class="card-body">
+            <form id="reserva-form" method="POST" class="row g-3">
+                <input type="hidden" name="indice" value="{{ indice_editar }}">
+
+                <div class="col-md-4">
+                    <label for="nombre_huesped" class="form-label">Nombre del Huésped</label>
+                    <input
+                        type="text"
+                        id="nombre_huesped"
+                        name="nombre_huesped"
+                        class="form-control"
+                        placeholder="Ingrese el nombre"
+                        value="{{ reserva_editar.nombre_huesped if reserva_editar else '' }}"
+                        required
+                    >
+                </div>
+
+                <div class="col-md-2">
+                    <label for="noches" class="form-label">Noches</label>
+                    <input
+                        type="number"
+                        id="noches"
+                        name="noches"
+                        class="form-control"
+                        placeholder="Noches"
+                        value="{{ reserva_editar.noches if reserva_editar else '' }}"
+                        required
+                    >
+                </div>
+
+                <div class="col-md-2">
+                    <label for="tarifa_noche" class="form-label">Tarifa por Noche</label>
+                    <input
+                        type="number"
+                        id="tarifa_noche"
+                        name="tarifa_noche"
+                        class="form-control"
+                        placeholder="Tarifa"
+                        value="{{ reserva_editar.tarifa_noche if reserva_editar else '' }}"
+                        step="0.01"
+                        required
+                    >
+                </div>
+
+                <div class="col-md-4">
+                    <label for="total_pagar" class="form-label">Total a Pagar</label>
+                    <input
+                        type="text"
+                        id="total_pagar"
+                        class="form-control"
+                        value=""
+                        readonly
+                        style="background-color: #e9ecef;"
+                    >
+                </div>
+
+                <div class="col-12 d-flex justify-content-between">
+                    {% if reserva_editar %}
+                        <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                            Cancelar edición
+                        </a>
+                        <button type="submit" class="btn btn-warning px-4">
+                            Guardar cambios
+                        </button>
+                    {% else %}
+                        <span></span>
+                        <button type="submit" class="btn btn-success px-4">
+                            Guardar
+                        </button>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de registros -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Reservas registradas</h5>
+            <a href="{{ url_for('index', sort_order='asc' if sort_order == 'desc' else 'desc') }}" class="btn btn-light btn-sm">
+                Ordenar por Total ({{ 'Ascendente' if sort_order == 'desc' else 'Descendente' }})
+            </a>
+        </div>
+        <div class="card-body">
+            {% if reservas and reservas|length > 0 %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre del Huésped</th>
+                                <th>Noches</th>
+                                <th>Tarifa por Noche</th>
+                                <th>Total a Pagar</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for r in reservas %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ r.nombre_huesped }}</td>
+                                <td>{{ r.noches }}</td>
+                                <td>${{ "%.2f"|format(r.tarifa_noche) }}</td>
+                                <td>${{ "%.2f"|format(r.total_pagar) }}</td>
+                                <td class="text-center">
+                                    <a href="{{ url_for('index', edit=loop.index0) }}"
+                                       class="btn btn-sm btn-primary me-1">
+                                        Editar
+                                    </a>
+                                    <form method="POST"
+                                          action="{{ url_for('eliminar', indice=loop.index0) }}"
+                                          style="display:inline-block"
+                                          onsubmit="return confirm('¿Estás seguro que deseas eliminar este registro?');">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted mb-0">No hay reservas registradas aún.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<footer class="bg-primary text-white text-center py-3 mt-5">
+    <small>Proyecto Flask - Gestión de Reservas de Hotel</small>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
