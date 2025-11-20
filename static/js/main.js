@@ -30,6 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        if (/\d/.test(nombre)) {
+            alert('El nombre del huésped no debe contener números.');
+            event.preventDefault();
+            return;
+        }
+
         const nochesVal = parseInt(noches, 10);
         const tarifaVal = parseFloat(tarifa);
 

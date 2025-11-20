@@ -1,8 +1,8 @@
 [
   {
-    "nombre_huesped": "Jane Doe",
-    "noches": 2,
-    "tarifa_noche": 150.0,
+    "nombre_huesped": "Juan Perez",
+    "noches": 3,
+    "tarifa_noche": 100.0,
     "total_pagar": 300.0
   }
 ]

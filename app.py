@@ -58,6 +58,10 @@ def index():
             flash("Todos los campos son obligatorios.", "error")
             return redirect(url_for("index"))
 
+        if any(char.isdigit() for char in nombre_huesped):
+            flash("El nombre del huésped no debe contener números.", "error")
+            return redirect(url_for("index"))
+
         try:
             noches_val = int(noches)
             tarifa_noche_val = float(tarifa_noche)
